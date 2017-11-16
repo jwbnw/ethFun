@@ -47,6 +47,6 @@ pragma solidity ^0.4.18;
 					return true;
 				}
 			}
-
-	}	return false;		
+		return false;
+	}			
 }
