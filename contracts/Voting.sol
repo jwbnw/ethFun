@@ -18,7 +18,7 @@ pragma solidity ^0.4.17;
 	/*Define the constructor, this is called when we deploy the contract
 	  to the blockchain. We are passing our constructor an
 	  array of the candidate names */
-	function Voing(bytes32[] candidateNames) public {
+	function Voting(bytes32[] candidateNames) public {
 		candidateList = candidateNames;
 	}
 
