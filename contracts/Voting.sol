@@ -1,7 +1,7 @@
 //.sol file to hold our voting contract 
 
 // Specify what version of the compiler we will use
-pragma solidity ^0.4.18;
+pragma solidity ^0.4.17;
 
 	
 	//Define our contract
