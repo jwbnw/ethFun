@@ -50,20 +50,15 @@ pragma solidity ^0.4.18;
 		return false;
 	}		
 
-	/*
-	function allCandidates() view public returns (bytes32[]){
+	
+	function allCandidates() view public returns (uint){
 
 
-		bytes32[] currCandidateList = candidateList;
+		return candidateList.length;
 
-    for(uint i = 0; i < candidateList.length; i++)
-      {
-        currCandidateList.push(candidateList[i]);
-      }
+  
 
 
-
-
-		return currCandidateList;
-	}*/
+	
+	}
 }
