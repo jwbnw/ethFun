@@ -1,7 +1,7 @@
 //.sol file to hold our voting contract 
 
 // Specify what version of the compiler we will use
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.18;
 
 	
 	//Define our contract
@@ -48,5 +48,22 @@ pragma solidity ^0.4.17;
 				}
 			}
 		return false;
-	}			
+	}		
+
+	/*
+	function allCandidates() view public returns (bytes32[]){
+
+
+		bytes32[] currCandidateList = candidateList;
+
+    for(uint i = 0; i < candidateList.length; i++)
+      {
+        currCandidateList.push(candidateList[i]);
+      }
+
+
+
+
+		return currCandidateList;
+	}*/
 }
