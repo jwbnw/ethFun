@@ -8,7 +8,7 @@ VotingContract = web3.eth.contract(abi);
 //Voting.deployed().then(function(contractInstance) { console.log(contractInstance.address);});
 //We could also make this dynamic by looking in the build folder
 //Note: http://web3js.readthedocs.io/en/1.0/web3-eth-contract.html
-contractInstance = VotingContract.at('0xf06450fb4f5c8e066a9395790f6f5411bae1556b');
+contractInstance = VotingContract.at('0xf7b3595b13df06b30879d528e2ae3ae6a7258aec');
 
 //Note we are going to hard code this in but we can probably make it dynamic.
 candidates = {"Bob": "candidate-1", "Alice": "candidate-2"};
