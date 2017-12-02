@@ -7,7 +7,7 @@ import "../contracts/Voting.sol";
 
 contract TestVoting {
 	 
-
+	//Test our candidate names
 	function testCandidateNames() public{
 
 		//Build a dynamic Array to pass to contract when initialized
@@ -34,19 +34,45 @@ contract TestVoting {
 		Assert.equal(result2,expected2,"Candidate 2 is not as expected");
 	}
 	
-		//test the Initial Candidates
+	//test the Initial Candidates
 	function testCandidateNum() public{
 
 		//since our contract is already initialized we will pass it no additional values
 		bytes32[] testListNames;
 		Voting vote = new Voting(testListNames);
 
-		uint result = vote.allCandidates();
+		uint result = vote.allCandidates(); //try passing this to the assert
 		uint expected = 2;
 
 		Assert.equal(result,expected, "Number of candidates is not valid");
 
 	}
+
+	//test our storage for the sender to the contract
+	function testMessageSenderStorage() public{
+
+	
+
+		bytes32[] testListNames;
+		Voting vote = new Voting(testListNames);
+
+
+	
+
+		testStruct testVoted = vote.senderInfo.data(); 
+
+
+
+
+		
+
+
+	}
+
+
+
+
+
 
 	//Helper Functions
 	function stringToBytes32(string memory source) public returns (bytes32 result)  {
@@ -62,5 +88,9 @@ contract TestVoting {
 		}
 	}
 
+	struct testStruct {
+		bool voted;
+		uint vote;
+		}
 
 }

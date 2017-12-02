@@ -8,7 +8,7 @@ VotingContract = web3.eth.contract(abi);
 //Voting.deployed().then(function(contractInstance) { console.log(contractInstance.address);});
 //We could also make this dynamic by looking in the build folder
 //Note: http://web3js.readthedocs.io/en/1.0/web3-eth-contract.html
-contractInstance = VotingContract.at('0xf7b3595b13df06b30879d528e2ae3ae6a7258aec');
+contractInstance = VotingContract.at('0xf052a9a0d5e0a81a6e5fbaa5975f8ee239c21ca3');
 
 //Note we are going to hard code this in but we can probably make it dynamic.
 candidates = {"Bob": "candidate-1", "Alice": "candidate-2"};
@@ -18,7 +18,7 @@ function voteForCandidate() {
   candidateName = $("#candidate").val();
   
  //Vote for the candidate and also return the new vote count as feedback
-  contractInstance.voteForCandidate(candidateName, {from: web3.eth.accounts[0]}, function() {
+  contractInstance.voteForCandidate(candidateName, {gas: 140000,from: web3.eth.accounts[0]}, function() {
     let div_id = candidates[candidateName];
     $("#" + div_id).html(contractInstance.totalVotesFor.call(candidateName).toString());
   });
