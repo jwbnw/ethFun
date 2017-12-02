@@ -47,31 +47,33 @@ contract TestVoting {
 		Assert.equal(result,expected, "Number of candidates is not valid");
 
 	}
-
-	//test our storage for the sender to the contract
-	function testMessageSenderStorage() public{
-
-	
+	function testVote() public{
 
 		bytes32[] testListNames;
 		Voting vote = new Voting(testListNames);
 
-
-	
-
-		testStruct testVoted = vote.senderInfo.data(); 
-
-
-
-
+		bytes32 testBobVote = stringToBytes32("Bob");
+		uint8 testBobVotePre = vote.totalVotesFor(testBobVote);
+		vote.voteForCandidate(testBobVote);
+		
+		uint8 testBobVotePost = vote.totalVotesFor(testBobVote);
+		
+		//Assert lib does not like uint8 being a 1; hence the conversion
+		int testBobVotePre1= int(testBobVotePre);
+		int testBobVotePost1 =int(testBobVotePost);
 		
 
-
+		Assert.notEqual(testBobVotePost1,testBobVotePre1,"Vote Failed");
 	}
+	
+	//test our storage for the sender to the contract
+	function testMessageSenderStorage() public{
 
+		//bytes32[] testListNames;
+		//Voting vote = new Voting(testListNames);
 
-
-
+		//var testS = vote.senderInfo;
+	}
 
 
 	//Helper Functions

@@ -3,12 +3,10 @@
 // Specify what version of the compiler we will use
 pragma solidity ^0.4.18;
 
-	
 	//Define our contract
 	contract Voting {
 	
-	//Here we will define a struct to save the voter info
-
+	//Here we define a struct to save the voter info to be used with our mapping
 	struct senderInfo {
 		bool voted;
 		uint32 voteCount;
@@ -19,10 +17,10 @@ pragma solidity ^0.4.18;
 	  the value is an unsigned int (this will store the vote count)*/
 	mapping (bytes32 => uint8) public votesReceived;
 
-	//will also need mapping with address and voter struct
+	//Mapping with address and voter struct
 	mapping(address => senderInfo) public voters;
-	//Define an arry of the bytes32 type to store our list of candidates
-
+	
+	//An arry of the bytes32 type to store our list of candidates
 	bytes32[] public candidateList;
 
 	//Define a counter for the votes
@@ -48,6 +46,7 @@ pragma solidity ^0.4.18;
 
 		require(validCandidate(candidate));
 
+		//Here we assign the refrence  
 		senderInfo sender = voters[msg.sender];
 		require(!sender.voted);
 		votesReceived[candidate] += 1;
@@ -59,10 +58,9 @@ pragma solidity ^0.4.18;
 	//Define a function to check if the candidate is valid
 	function validCandidate(bytes32 candidate) view public returns (bool) {
 
-		for(uint i = 0; i < candidateList.length; i++)
-			{
-				if (candidateList[i] == candidate) 
-				{
+		for(uint i = 0; i < candidateList.length; i++){
+				
+				if (candidateList[i] == candidate) {
 					return true;
 				}
 			}
@@ -71,7 +69,6 @@ pragma solidity ^0.4.18;
 
 	
 	function allCandidates() view public returns (uint){
-
 
 		return candidateList.length;
 	
