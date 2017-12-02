@@ -5,6 +5,10 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/Voting.sol";
 
+//may have to change this into contracts folder so it gets compiled, we'll see
+import "helpers/ThrowProxy.sol";
+
+
 contract TestVoting {
 	 
 	//Test our candidate names
@@ -47,6 +51,8 @@ contract TestVoting {
 		Assert.equal(result,expected, "Number of candidates is not valid");
 
 	}
+
+	//test our vote functionality
 	function testVote() public{
 
 		bytes32[] testListNames;
@@ -59,20 +65,38 @@ contract TestVoting {
 		uint8 testBobVotePost = vote.totalVotesFor(testBobVote);
 		
 		//Assert lib does not like uint8 being a 1; hence the conversion
-		int testBobVotePre1= int(testBobVotePre);
-		int testBobVotePost1 =int(testBobVotePost);
+		int testBobVotePre1 = int(testBobVotePre);
+		int testBobVotePost1 = int(testBobVotePost);
 		
 
 		Assert.notEqual(testBobVotePost1,testBobVotePre1,"Vote Failed");
 	}
 	
-	//test our storage for the sender to the contract
-	function testMessageSenderStorage() public{
+	//Here we are going to make use ofr ThrowProxy http://truffleframework.com/tutorials/testing-for-throws-in-solidity-tests
+	function testAddressSenderStorage() public{
 
-		//bytes32[] testListNames;
-		//Voting vote = new Voting(testListNames);
+		bytes32[] testListNames;
+		Voting vote = new Voting(testListNames);
+		bytes32 testBobVote = stringToBytes32("Bob");
 
-		//var testS = vote.senderInfo;
+		vote.voteForCandidate(testBobVote);
+		uint8 testBobVotePre = vote.totalVotesFor(testBobVote);
+
+		vote.voteForCandidate(testBobVote);
+		bool testBobVotePost = vote.totalVotesFor(testBobVote);
+
+		int testBobVotePre1 = int(testBobVotePre);
+		int testBobVotePost1 = int(testBobVotePost);
+
+
+		Assert.isFalse(bool,"Sender voted twice");
+	}
+
+	function testAddressSenderVoteCount() public{
+
+
+
+
 	}
 
 
