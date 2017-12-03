@@ -72,24 +72,25 @@ contract TestVoting {
 		Assert.notEqual(testBobVotePost1,testBobVotePre1,"Vote Failed");
 	}
 	
-	//Here we are going to make use ofr ThrowProxy http://truffleframework.com/tutorials/testing-for-throws-in-solidity-tests
+	//Here we make use of ThrowProxy from our helper contracts since we are expecting an exception
 	function testAddressSenderStorage() public{
 
 		bytes32[] testListNames;
 		Voting vote = new Voting(testListNames);
+
+		//set vote as the contract to forward requests to (the target)
+		ThrowProxy throwProxy = new ThrowProxy(address(vote));
+
 		bytes32 testBobVote = stringToBytes32("Bob");
 
-		vote.voteForCandidate(testBobVote);
-		uint8 testBobVotePre = vote.totalVotesFor(testBobVote);
+		//prime our proxy
+		Voting(address(throwProxy)).voteForCandidate(testBobVote);
 
-		vote.voteForCandidate(testBobVote);
-		bool testBobVotePost = vote.totalVotesFor(testBobVote);
-
-		int testBobVotePre1 = int(testBobVotePre);
-		int testBobVotePost1 = int(testBobVotePost);
-
-
-		Assert.isFalse(bool,"Sender voted twice");
+		//attempt to vote twice
+		bool firstVote = throwProxy.execute();
+		bool result = throwProxy.execute();
+		
+		 Assert.isFalse(result,"Sender voted twice");
 	}
 
 	function testAddressSenderVoteCount() public{
