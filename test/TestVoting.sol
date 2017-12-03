@@ -15,7 +15,7 @@ contract TestVoting {
 	function testCandidateNames() public{
 
 		//Build a dynamic Array to pass to contract when initialized
-		bytes32[] testListNames;
+		bytes32[] storage testListNames;
 	
 
 		bytes32 Bob = stringToBytes32("Bob");
@@ -42,7 +42,7 @@ contract TestVoting {
 	function testCandidateNum() public{
 
 		//since our contract is already initialized we will pass it no additional values
-		bytes32[] testListNames;
+		bytes32[] storage testListNames;
 		Voting vote = new Voting(testListNames);
 
 		uint result = vote.allCandidates(); //try passing this to the assert
@@ -55,7 +55,7 @@ contract TestVoting {
 	//test our vote functionality
 	function testVote() public{
 
-		bytes32[] testListNames;
+		bytes32[] storage testListNames;
 		Voting vote = new Voting(testListNames);
 
 		bytes32 testBobVote = stringToBytes32("Bob");
@@ -75,7 +75,7 @@ contract TestVoting {
 	//Here we make use of ThrowProxy from our helper contracts since we are expecting an exception
 	function testAddressSenderStorage() public{
 
-		bytes32[] testListNames;
+		bytes32[] storage testListNames;
 		Voting vote = new Voting(testListNames);
 
 		//set vote as the contract to forward requests to (the target)
@@ -86,20 +86,33 @@ contract TestVoting {
 		//prime our proxy
 		Voting(address(throwProxy)).voteForCandidate(testBobVote);
 
-		//attempt to vote twice
-		bool firstVote = throwProxy.execute();
+		//attempt to vote twice 
+		bool firstVote = throwProxy.execute(); //we could pass the execute function gas if need be
 		bool result = throwProxy.execute();
 		
 		 Assert.isFalse(result,"Sender voted twice");
 	}
 
+	//test that our vote count is increasing with each vote
 	function testAddressSenderVoteCount() public{
 
+		bytes32[] storage testListNames;
+		Voting vote = new Voting(testListNames);
 
+		uint32 uCountPre = vote.voteCount();
+		bytes32 testBobVote = stringToBytes32("Bob");
 
+		vote.voteForCandidate(testBobVote);
+		
+		uint32 uCountPost = vote.voteCount();
+
+		int expected = int(uCountPre);
+		int result = int(uCountPost);
+		
+
+		Assert.notEqual(result, expected, "Vote count is not changing");
 
 	}
-
 
 	//Helper Functions
 	function stringToBytes32(string memory source) public returns (bytes32 result)  {
@@ -114,10 +127,5 @@ contract TestVoting {
 			result := mload(add(source,32))
 		}
 	}
-
-	struct testStruct {
-		bool voted;
-		uint vote;
-		}
 
 }
