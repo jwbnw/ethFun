@@ -17,7 +17,7 @@ pragma solidity ^0.4.18;
 	  the value is an unsigned int (this will store the vote count)*/
 	mapping (bytes32 => uint8) public votesReceived;
 
-	//Mapping with address and voter struct
+	//Mapping with sender address as key and voter struct as value
 	mapping(address => senderInfo) public voters;
 	
 	//An arry of the bytes32 type to store our list of candidates
@@ -47,7 +47,7 @@ pragma solidity ^0.4.18;
 		require(validCandidate(candidate));
 
 		//Here we assign the refrence  
-		senderInfo sender = voters[msg.sender];
+		senderInfo storage sender = voters[msg.sender];
 		require(!sender.voted);
 		votesReceived[candidate] += 1;
 		sender.voted = true;
